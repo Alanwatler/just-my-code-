@@ -1,0 +1,64 @@
+import random
+import os
+def start_fx():
+  start = input(("If you wish to start type 1: \nif you wish to exit type 2:\n your choce:"))
+  if start == "1":
+    os.system('clear')
+    main()
+  elif start == "2":
+    os.system('clear')
+    print("Goodbye")
+    exit()  
+class Players:
+    used_ids = set()  # Class variable to keep track of used IDs
+
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+        self.id = self.generate_unique_id()
+
+    @property
+    def info(self):
+        return f"Name: {self.name} \nAge: {self.age} \nGender: {self.gender} \nID: {self.id}"
+
+    @info.setter
+    def info(self, info):
+        try:
+            name, age, gender, id = info.split(", ")
+            self.name = name.split(": ")[1]
+            self.age = int(age.split(": ")[1])
+            self.gender = gender.split(": ")[1]
+            self.id = id.split(": ")[1]
+        except ValueError:
+            raise ValueError("Info must be in the format 'Name: <name>, Age: <age>, Gender: <gender>, ID: <id>'")
+
+    def generate_unique_id(self):
+        while True:
+            new_id = random.randint(1000, 9999)  # Generate a random 4-digit ID
+            if new_id not in Players.used_ids:
+                Players.used_ids.add(new_id)
+                return new_id
+def main():
+    
+  def save_info(player):
+    os.makedirs("players",   exist_ok=True)  
+    with         open(f"players/{player.id}.txt", "w") as f:  
+        f.write(player.info)
+  def take_info():
+      name = input("Enter your name: ")
+      age = input("Enter your age: ")
+      gender = input("Enter your gender (male/female/other): ")
+      return name, age, gender
+  # Gather user input
+  name, age, gender = take_info()
+  # Create an instance of Players class with the gathered information
+  player = Players(name, age, gender)
+  # Print the player's information
+  print(player.info)
+  # Save the player's information to a file
+
+start_fx()
+
+
+      
